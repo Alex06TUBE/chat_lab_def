@@ -1,0 +1,113 @@
+Chat di laboratorio
+
+L’obiettivo è creare un sistema in cui ogni studente realizza sia un server, sia un client, e tutti i
+client possano collegarsi a qualunque server (purché rispettino lo stesso protocollo). Gli studenti
+dovranno testare la compatibilità dei propri client con i server altrui.
+
+Parametri di base
+Il server dovrà essere in ascolto su 127.0.0.1 (localhost) e sulla porta 12345. Il client conoscerà
+quindi questi parametri e, all'avvio, si collegherà automaticamente a 127.0.0.1:12345. Ogni
+studente dovrà realizzare sia un server sia un client compatibile con il protocollo comune, in modo
+che tutti possano testare le soluzioni incrociate.
+
+Protocollo standard richiesto
+Al primo collegamento, il server chiederà un nickname al client. Quel nickname rimarrà associato
+alla connessione fino a quando l’utente non si disconnette o, se previsto, richiede un cambio di
+nome.
+Per inviare messaggi, il client potrà usare questi comandi testuali, inviati uno per riga (o con un
+separatore concordato):
+1. DIRECT <destinatario> <testo>
+Invia <testo> in modo privato all’utente identificato da <destinatario>.
+2. BROADCAST <testo>
+Invia <testo> a tutti gli utenti connessi al server.
+3. LIST
+Richiede l’elenco di tutti i nickname attualmente connessi. Il server risponde con i nomi
+disponibili.
+4. QUIT
+Chiude la connessione e rimuove l’utente dalla lista.
+Facoltativamente, si può aggiungere un comando NICK <nuovoNickname>, che cambia
+dinamicamente il nome di un utente già connesso.
+
+Server
+Il server dovrà:
+• Creare un ServerSocket su localhost, porta 12345.
+• Accettare connessioni in un ciclo infinito e avviare un thread per ciascun client.
+• Chiedere il nickname iniziale a ogni nuovo client, registrarlo in una struttura dati (ad
+esempio una mappa <nickname, ClientHandler>), inviare un eventuale errore se il
+nickname è già in uso e, se tutto è ok, proseguire.
+• Interpretare i comandi ricevuti in base al protocollo standard.
+• Inoltrare i messaggi diretti o broadcast alle destinazioni appropriate, rispondendo con
+eventuali messaggi di conferma o di errore.
+• Gestire la disconnessione pulita (rimuovere l’utente dalla struttura e chiudere il socket).
+
+Client
+Il client dovrà:
+• Collegarsi a 127.0.0.1:12345 e comunicare il proprio nickname (lettura da console, o da
+argomento di comando tipo java ClientChat Mario).
+• Offrire un modo per inserire i comandi definiti dal protocollo (DIRECT, BROADCAST, LIST,
+QUIT).
+• Ascoltare i messaggi provenienti dal server (ad esempio in un thread dedicato) e mostrarli
+su console (o in un’interfaccia grafica, se decidi di farla).
+• Gestire correttamente QUIT e chiudere la connessione.
+
+(Opzionale) Ricordare il destinatario con un comando “CHAT”
+Per migliorare l’esperienza di utilizzo della chat, si possono introdurre funzionalità che evitino di
+riscrivere il destinatario ogni volta. Ci sono due modi principali:
+1. Approccio lato client
+Il client fornisce un comando, per esempio CHAT <nickname>, che imposta un “destinatario
+attuale”. Da quel momento in poi, se l’utente digita un messaggio libero senza specificare
+nulla, il client aggiunge in automatico il comando DIRECT <destinatarioAttuale> prima di
+inviarlo al server. Questo non richiede modifiche al server, che vedrà comunque arrivare un
+messaggio formattato come DIRECT.
+2. Approccio lato server
+Il protocollo introduce un comando dedicato, sempre CHAT <nickname>, che imposta lato
+server il “destinatario corrente” per quella connessione. Se l’utente invia successivamente
+un messaggio semplice (“Ciao!”), il server lo interpreta come DIRECT
+<destinatarioCorrente> Ciao!. In questo caso bisogna modificare il server per gestire uno
+“stato” (il destinatario attuale) per ogni utente, distinguendo i messaggi generici da quelli
+che contengono un comando. Questo è più complesso ma fa sì che il client possa restare
+minimalista.
+In entrambi i casi, l’utente potrà digitare un altro CHAT <nickname> per cambiare destinatario,
+oppure inviare un comando BROADCAST esplicito quando vuole parlare a tutti. Se non desideri
+implementare questa funzionalità, puoi ignorarla; resta un’opzione facoltativa.
+
+Fasi di sviluppo
+1. Fase 1 (Analisi):
+Redigi un breve documento che descriva esattamente come intendi strutturare il tuo server
+e il tuo client. Elenca quali comandi supporterai, come gestirai i thread e dove
+memorizzerai le informazioni. Se vuoi implementare la funzionalità opzionale “CHAT ”,
+specifica se la gestirai lato client o lato server.
+2. Fase 2 (Server):
+Implementa il server che ascolta su 127.0.0.1:12345. Crea un thread per ogni client,
+memorizza i nickname, inoltra i messaggi (DIRECT, BROADCAST) e gestisci la
+disconnessione. Alla fine di questa fase, dovresti poterlo testare con un client molto
+semplice (anche telnet) per verificare che riceva e invii i messaggi correttamente.
+3. Fase 3 (Client):
+Implementa il client che si collega al server, chiede (o riceve da linea di comando) un
+nickname e consente l’invio dei comandi. Prevedi un thread dedicato all’ascolto dei
+messaggi dal server. A conclusione, fai i primi test di interoperabilità collegandoti al server
+di un compagno e consentendogli di collegarsi al tuo.
+4. Fase 4 (Opzioni avanzate e debug):
+Aggiungi eventuali estensioni, come il cambio di nickname in corso (NICK) o il comando
+CHAT <nickname> (in una delle due varianti), oppure una semplice interfaccia grafica con
+Swing o JavaFX. Esegui test incrociati e, se necessario, aggiorna documentazione e
+codice per gestire errori, conflitti di nickname o eventuali problemi di concurrency.
+
+Finale
+L’elemento principale di valutazione sarà la corretta implementazione del server e del client
+secondo i parametri standard (localhost, porta 12345) e il protocollo di base (DIRECT,
+BROADCAST, LIST, QUIT). Verrà poi apprezzata la capacità di gestire situazioni di errore
+(nickname già in uso, destinatario inesistente) e di realizzare le estensioni facoltative, come
+l’opzione “CHAT ” o un’interfaccia grafica. Sarà inoltre valutata la dimostrazione di interoperabilità
+con i server e i client degli altri studenti.
+
+Al termine, dovrai eseguire una dimostrazione mostrando il tuo server in funzione con minimo due
+client (il tuo e quello di un compagno) che si scambiano messaggi. Inoltre, dovrai avviare il tuo
+client e connetterti almeno a un altro server realizzato da un compagno e avviando correttamente
+uno scambio di messaggi, in modo da verificare l’effettiva interoperabilità.
+
+Questa impostazione standardizzata, in cui tutti usano 127.0.0.1 come indirizzo e la porta 12345,
+garantisce di poter testare i client di diversi studenti sui server dei compagni. Si può rimanere
+collegati con il proprio nickname finché non ci si disconnette o non si invia un comando di cambio
+nickname, in modo da semplificare l’utilizzo per l’utente. L’importante è implementare
+correttamente il protocollo concordato e dimostrare
