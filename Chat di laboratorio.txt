@@ -18,11 +18,14 @@ Per inviare messaggi, il client potrà usare questi comandi testuali, inviati un
 separatore concordato):
 1. DIRECT <destinatario> <testo>
 Invia <testo> in modo privato all’utente identificato da <destinatario>.
+
 2. BROADCAST <testo>
 Invia <testo> a tutti gli utenti connessi al server.
+
 3. LIST
 Richiede l’elenco di tutti i nickname attualmente connessi. Il server risponde con i nomi
 disponibili.
+
 4. QUIT
 Chiude la connessione e rimuove l’utente dalla lista.
 Facoltativamente, si può aggiungere un comando NICK <nuovoNickname>, che cambia
