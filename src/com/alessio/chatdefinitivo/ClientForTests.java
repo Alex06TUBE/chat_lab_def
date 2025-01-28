@@ -22,6 +22,7 @@ public class ClientForTests {
             String nickname;
             while ((nickname = console.readLine()) != null) {
                 out.println(nickname);
+                in.readLine();
                 String response = in.readLine();
                 if (response.equals("Benvenuto, " + nickname + "!")) {
                     System.out.println(response);
