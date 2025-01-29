@@ -54,16 +54,30 @@ public class Server
                 broadcast(nickname + " si è connesso.", null);
 
                 String message;
-                while ((message = in.readLine()) != null) {
-                    if (message.startsWith("DIRECT ")) {
+                while ((message = in.readLine()) != null)
+                {
+                    if (message.startsWith("DIRECT "))
+                    {
                         handleDirectMessage(message);
-                    } else if (message.startsWith("BROADCAST ")) {
+                    }
+                    else if (message.startsWith("BROADCAST "))
+                    {
                         handleBroadcastMessage(message);
-                    } else if (message.equals("LIST")) {
+                    }
+                    else if (message.equals("LIST"))
+                    {
                         handleListRequest();
-                    } else if (message.equals("QUIT")) {
+                    }
+                    else if (message.equals("QUIT"))
+                    {
                         break;
-                    } else {
+                    }
+                    else if (message.startsWith("NICK"))
+                    {
+                        handleNickRequest(message);
+                    }
+                    else
+                    {
                         out.println("Comando non riconosciuto.");
                     }
                 }
@@ -106,6 +120,17 @@ public class Server
                     client.out.println(message);
                 }
             }
+        }
+
+        private void handleNickRequest(String message)
+        {
+            String newNickname = message.split(" ")[1];
+            out.println("Nickname cambiato in: " + newNickname);
+            synchronized (clients) {
+                clients.put(newNickname, this);
+                clients.remove(this.nickname);
+            }
+            this.nickname = newNickname;
         }
 
         private void disconnect() {
