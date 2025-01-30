@@ -7,6 +7,7 @@ import java.util.concurrent.ConcurrentHashMap;
 public class Server
 {
     private static final int PORT = 12345;
+    // !!!! ----> Questa è un'HashMap che ha come chiave il nickname e di valore ClientHandler che è un Runnable <---- !!!!
     private static final ConcurrentHashMap<String, ClientHandler> clients = new ConcurrentHashMap<>();
 
     public static void main(String[] args) {
