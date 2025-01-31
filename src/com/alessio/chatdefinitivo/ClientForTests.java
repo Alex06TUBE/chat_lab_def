@@ -1,3 +1,6 @@
+/*
+    <----------------CLASSE TEMPORANEA--------------->
+*/
 package com.alessio.chatdefinitivo;
 
 // Client.java

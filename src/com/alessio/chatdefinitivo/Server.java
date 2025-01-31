@@ -18,25 +18,28 @@ public class Server
             while (true) {
                 //Il server è in attesa della connessione del client
                 Socket clientSocket = serverSocket.accept();
-                // si crea un nuovo thread.
+                // si crea un nuovo thread che gli passa un CLientHandler che è un Runnable.
                 new Thread(new ClientHandler(clientSocket)).start();
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
+
 //ClientHandler è una classe di tipo Runnable
     static class ClientHandler implements Runnable {
         private final Socket socket;
         private String nickname;
         private PrintWriter out;
 
+        // Questo cotsruttore ha bisogno di una Socket
         public ClientHandler(Socket socket) {
             this.socket = socket;
         }
 
         @Override
-        public void run() {
+        public void run()
+        {
             try (
                     BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
                     PrintWriter out = new PrintWriter(socket.getOutputStream(), true)
@@ -61,7 +64,7 @@ public class Server
                 String message;
                 while ((message = in.readLine()) != null)
                 {
-                    // Questo comando invia un messagio ad un destinatario specifico
+                    // Questo comando invia un messaggio ad un destinatario specifico
                     if (message.startsWith("DIRECT "))
                     {
                         handleDirectMessage(message);
@@ -71,7 +74,7 @@ public class Server
                     {
                         handleBroadcastMessage(message);
                     }
-                    // questo comando visualli tutti i client connessi
+                    // questo comando visualizza tutti i client connessi
                     else if (message.equals("LIST"))
                     {
                         handleListRequest();
