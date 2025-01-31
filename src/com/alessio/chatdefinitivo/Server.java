@@ -12,16 +12,20 @@ public class Server
 
     public static void main(String[] args) {
         System.out.println("Server avviato su localhost, porta " + PORT);
+        // vado a creare un'oggeto "serverSocket" assegnando la porta.
         try (ServerSocket serverSocket = new ServerSocket(PORT)) {
+
             while (true) {
+                //Il server è in attesa della connessione del client
                 Socket clientSocket = serverSocket.accept();
+                // si crea un nuovo thread.
                 new Thread(new ClientHandler(clientSocket)).start();
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
-
+//ClientHandler è una classe di tipo Runnable
     static class ClientHandler implements Runnable {
         private final Socket socket;
         private String nickname;
@@ -57,22 +61,27 @@ public class Server
                 String message;
                 while ((message = in.readLine()) != null)
                 {
+                    // Questo comando invia un messagio ad un destinatario specifico
                     if (message.startsWith("DIRECT "))
                     {
                         handleDirectMessage(message);
                     }
+                    // questo comando invia un messaggio a tutti i destinatari connessi
                     else if (message.startsWith("BROADCAST "))
                     {
                         handleBroadcastMessage(message);
                     }
+                    // questo comando visualli tutti i client connessi
                     else if (message.equals("LIST"))
                     {
                         handleListRequest();
                     }
+                    // questo comando disconnette il client
                     else if (message.equals("QUIT"))
                     {
                         break;
                     }
+                    // questo comando cambia il nickname
                     else if (message.startsWith("NICK"))
                     {
                         handleNickRequest(message);
