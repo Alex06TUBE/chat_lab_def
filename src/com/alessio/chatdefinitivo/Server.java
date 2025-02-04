@@ -11,9 +11,15 @@ public class Server
     private static final ConcurrentHashMap<String, ClientHandler> clients = new ConcurrentHashMap<>();
 
     public static void main(String[] args) {
+        InetAddress addr; // creazione di un InetAddress in modo da poter connettere il server su un IP specifico
+        try {
+            addr = InetAddress.getByName("192.168.153.1"); // IP al quale connettere il server
+        } catch (UnknownHostException e) {
+            throw new RuntimeException(e);
+        }
         System.out.println("Server avviato su localhost, porta " + PORT);
         // vado a creare un'oggeto "serverSocket" assegnando la porta.
-        try (ServerSocket serverSocket = new ServerSocket(PORT)) {
+        try (ServerSocket serverSocket = new ServerSocket(PORT, 0, addr)) {
 
             while (true) {
                 //Il server è in attesa della connessione del client

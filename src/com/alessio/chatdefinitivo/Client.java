@@ -5,7 +5,7 @@ import java.io.*;
 import java.net.*;
 
 public class Client {
-    private static final String SERVER_ADDRESS = "127.0.0.1";
+    private static final String SERVER_ADDRESS = "192.168.153.1";
     private static final int SERVER_PORT = 12345;
 
     public static void main(String[] args) {
