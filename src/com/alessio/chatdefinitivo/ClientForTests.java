@@ -1,5 +1,6 @@
 /*
     <----------------CLASSE TEMPORANEA--------------->
+    <----------------QUESTA CLASSE VERRÀ ELIMINATA IL 4/03/2025 ALLE ORE 12:30--------------->
 */
 package com.alessio.chatdefinitivo;
 
