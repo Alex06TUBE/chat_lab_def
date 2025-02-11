@@ -1,8 +1,8 @@
 package com.alessio.chatdefinitivo;
 
-import java.io.*;
-import java.net.*;
-import java.util.concurrent.ConcurrentHashMap;
+import java.io.*; // importo la libreria globale di "java.io"
+import java.net.*; // importo la libreria globale di "java.net"
+import java.util.concurrent.ConcurrentHashMap; // importo la libreria "java.util.concurrent.ConcurrentHashMap"
 
 public class Server
 {
@@ -13,7 +13,7 @@ public class Server
     public static void main(String[] args) {
         InetAddress addr; // creazione di un InetAddress in modo da poter connettere il server su un IP specifico
         try {
-            addr = InetAddress.getByName("192.168.153.1"); // IP al quale connettere il server
+            addr = InetAddress.getByName("localhost"); // IP al quale connettere il server
         } catch (UnknownHostException e) {
             throw new RuntimeException(e);
         }

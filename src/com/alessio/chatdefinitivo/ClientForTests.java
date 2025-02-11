@@ -12,7 +12,7 @@ import java.io.PrintWriter;
 import java.net.Socket;
 
 public class ClientForTests {
-    private static final String SERVER_ADDRESS = "127.0.0.1";
+    private static final String SERVER_ADDRESS = "localhost";
     private static final int SERVER_PORT = 12345;
 
     public static void main(String[] args) {
