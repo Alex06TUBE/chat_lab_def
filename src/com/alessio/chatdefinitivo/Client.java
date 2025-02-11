@@ -1,8 +1,8 @@
 package com.alessio.chatdefinitivo;
 
 // Client.java
-import java.io.*;
-import java.net.*;
+import java.io.*; // importo la libreria globale di "java.io"
+import java.net.*; // importo la libreria globale di "java.net"
 
 public class Client {
     private static final String SERVER_ADDRESS = "localhost";

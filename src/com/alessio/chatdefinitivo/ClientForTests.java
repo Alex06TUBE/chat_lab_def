@@ -5,11 +5,8 @@ package com.alessio.chatdefinitivo;
 
 // Client.java
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
-import java.net.Socket;
+import java.io.*; // importo la libreria globale di "java.io"
+import java.net.*; // importo la libreria globale di "java.net"
 
 public class ClientForTests {
     private static final String SERVER_ADDRESS = "localhost";
