@@ -5,7 +5,7 @@ import java.io.*; // importo la libreria globale di "java.io"
 import java.net.*; // importo la libreria globale di "java.net"
 
 public class Client {
-    private static final String SERVER_ADDRESS = "localhost";
+    private static final String SERVER_ADDRESS = "192.168.153.1";
     private static final int SERVER_PORT = 12345;
 
     public static void main(String[] args) {
@@ -20,7 +20,7 @@ public class Client {
                 out.println(nickname);
                 in.readLine();
                 String response = in.readLine();
-                if (response.equals("Benvenuto, " + nickname + "!")) {
+                if (response.contains("OK")) {
                     System.out.println(response);
                     break;
                 } else {
